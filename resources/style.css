@@ -5,6 +5,7 @@
 #game-holder {
 	widows: 100%;
 	max-width: 800px;
+	position: relative;
 }
 
 .card {
@@ -36,12 +37,12 @@
 }
 
 .card-row {
-	border-top: 1px solid #000;
+	border-bottom: 1px solid #000;
 	
 }
 
-.card-row:last-child {
-	border-bottom: 1px solid #000;
+.card-row:first-child {
+	border-top: 1px solid #000;
 }
 
 .card-suit {
@@ -53,4 +54,26 @@
 }
 .card-suit.heart, .card-suit.diamond {
 	color: red;
+}
+
+
+.piece {
+	position: absolute;	
+	width: 10%;
+	/*top: 1px;*/
+	top: 0;
+	left: 0;
+	/*margin: 1.5% 1.5%;*/
+}
+
+.piece:after {
+	content: '';
+	padding-top: 100%;
+	display: block;
+	background-color: red;
+	/*border-radius: 50%;*/
+}
+
+.piece.home:after {
+	background-color: #000000;
 }

@@ -3,9 +3,10 @@ function Card (label, suit) {
 
 	self.label = label;
 	self.suit = suit;
-
 	self.value;
 
+
+	// Assign the correct value based on letter values (caps expected, I know...)
 	if (typeof self.label === "number") {
 		self.value = self.label;
 	} else {
@@ -28,6 +29,7 @@ function Card (label, suit) {
 		}
 	}	
 
+	// Generate the DOM element assosciated with the card, append a unicode value assosciated with the suit string, attach this object to dom in Data.
 	self.buildElement = function() {
 		self.$element = $('<div class="card"><div class="card-content"><span class="card-value">' + self.label + '</span></div>');
 		$suitChar = $('<span class="card-suit"></span>');
@@ -62,10 +64,46 @@ function Card (label, suit) {
 	self.buildElement();
 }
 
-function Piece (x, y, team) {	
-	this.x = x;
-	this.y = y;
-	this.team = team;
+function Piece (x, y, team) {
+	var self = this;
+
+	self.x = x;
+	self.y = y;
+	self.team = team;
+
+	self.move = function(x, y) {
+
+		var newX = x * app.cardWidth;
+		var newY = y * app.cardWidth;
+
+		var transformString = 'translate(' + newX + 'px, ' + newY + 'px)';		
+		self.$element.css('transform', transformString);
+
+	}
+
+	self.init = function() {
+		self.$element = $('<div class="piece"></div>');
+
+		if (self.team === 0) {
+			self.$element.addClass('away');
+		} else {
+			self.$element.addClass('home');
+		}
+
+		self.$element.data({obj: self});
+		self.$element.height(app.cardWidth);
+		app.gameHolder.append(self.$element);
+
+
+		self.move(self.x, self.y);
+	}
+
+	
+
+	self.init();
+
+
+
 }
 
 app = {	
@@ -106,6 +144,8 @@ app = {
 		app.fullBoard = app.mirrorHalf.concat(app.defaultHalf);
 
 		app.drawBoard(app.fullBoard);
+		app.cardWidth = $('.card').height();
+
 		app.drawPieces();
 	},
 
