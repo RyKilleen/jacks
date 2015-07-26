@@ -14,23 +14,21 @@ app = {
 		[new Card('J',  'joker'), new Card(10,  'spade'), new Card(9,   'spade'), new Card(8,   'spade'), new Card(7,   'spade'), new Card(7,   'diamond'), new Card(8,   'diamond'), new Card(9, 'diamond'), new Card(10, 'diamond'), new Card('J',  'joker')]
 	],
 
-	
-
 
 	init: function() {
 
 		app.gameHolder = $('#game-holder');
-		app.otherHalf = $.extend(true, [], app.defaultHalf);
+		app.mirrorHalf = $.extend(true, [], app.defaultHalf);
 
-		app.otherHalf.reverse();
+		app.mirrorHalf.reverse();
 
-		for (var i=0; i < app.otherHalf.length; i++) {
-			app.otherHalf[i].reverse();
+		for (var i=0; i < app.mirrorHalf.length; i++) {
+			app.mirrorHalf[i].reverse();
 		}
 
 		
 
-		app.fullBoard = app.otherHalf.concat(app.defaultHalf);
+		app.fullBoard = app.mirrorHalf.concat(app.defaultHalf);
 
 		app.drawBoard(app.fullBoard);
 	},
@@ -48,33 +46,39 @@ app = {
 
 				var $newElement = $('<div class="card"><div class="card-content"><span class="card-value">' + thisCard.value + '</span></div>')
 
-				var suitChar;
+				var $suitChar = $('<span class="card-suit"></span>');
 
 				switch (thisCard.suit) {
 
 					case 'spade':
-						suitChar = '\u2660';
+						
+						$suitChar.html('\u2660');						
 						break;
 
 					case 'heart':
-						suitChar = '\u2665';
+						
+						$suitChar.html('\u2665');						
 						break;
 
 					case 'club':
-						suitChar = '\u2663';
+
+						$suitChar.html('\u2663');						
 						break;
 
 					case 'diamond':
-						suitChar = '\u2666';
+
+						$suitChar.html('\u2666');						
 						break;
 
 					case 'joker':
-						suitChar = '';
+						$suitChar.html('');
 						break;
 				}
 
+				$suitChar.addClass(thisCard.suit);
 
-				$newElement.children('.card-content').append(suitChar);
+
+				$newElement.children('.card-content').append($suitChar);
 
 
 				$thisRow.append($newElement);				
@@ -82,6 +86,11 @@ app = {
 
 			app.gameHolder.append($thisRow);
 		}
+	},
+
+
+	initPieces : function() {
+
 	}
 }
 

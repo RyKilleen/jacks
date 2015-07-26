@@ -1,0 +1,46 @@
+* {
+	box-sizing: border-box;
+}
+
+#game-holder {
+	widows: 100%;
+	max-width: 800px;
+}
+
+.card {
+	display: inline-block;
+	width: 10%;	
+	position: relative;
+	vertical-align: top;
+	
+}
+
+.card:first-child:after {
+	border-left: 1px solid #000;
+}
+
+.card:after {
+	content: '';
+	padding-top: 100%;
+	display: block;
+	border-right: 1px solid #000;
+}
+
+.card .card-content {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.card-row {
+	border-top: 1px solid #000;
+	
+}
+
+.card-row:last-child {
+	border-bottom: 1px solid #000;
+}
+
+.card-suit.heart, .card-suit.diamond {
+	color: red;
+}
