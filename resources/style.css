@@ -8,7 +8,7 @@
 	position: relative;
 }
 
-.card.adjacent:hover {
+.card.adjacent {
 	background-color: #8AFF8A;
 }
 

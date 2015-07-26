@@ -208,17 +208,58 @@ app = {
 				this.$element.removeClass('selected');
 			})
 		
-			if (event.target.className.includes('piece')) {				
-				$(event.target).addClass('selected');
+			if (event.target.className.includes('piece')) {
+
+				var $thisPiece = $(event.target);
+				var $thisPieceObj = $thisPiece.data('obj');
+				$thisPiece.addClass('selected');
+
+
 				app.status.pieceSelected = true;
-				app.setAdjacentPieces();
+				var $adjacentPieces = $(app.checkAdjacents($thisPieceObj.x, $thisPieceObj.y));
+
+				$adjacentPieces.each(function() {
+					this.$element.addClass('adjacent');
+				});
 			} else {
 				app.status.pieceSelected = false;
 			}
 		})
-	}
+	},
 
-	
+	//Takes the x and y given and returns free adjacent cards
+	checkAdjacents : function(x, y) {
+		var freeAdjacents = [];
+
+
+		// I'm sure there's a prettier way to check boundaries.
+
+		if (x < 10) {
+			if (app.fullBoard[y][x+1] !== undefined && app.fullBoard[y][x+1].hasPiece === false) {
+				freeAdjacents.push(app.fullBoard[y][x+1])
+			}
+		}
+
+		if (y < 10) {
+			if (app.fullBoard[y+1][x] !== undefined && app.fullBoard[y+1][x].hasPiece === false) {
+				freeAdjacents.push(app.fullBoard[y+1][x])
+			}
+		}
+
+		if (x > 0) {
+			if (app.fullBoard[y][x-1] !== undefined && app.fullBoard[y][x-1].hasPiece === false) {
+				freeAdjacents.push(app.fullBoard[y][x-1])
+			}	
+		}
+		
+		if (y > 0) {
+			if (app.fullBoard[y-1][x] !== undefined && app.fullBoard[y-1][x].hasPiece === false) {
+				freeAdjacents.push(app.fullBoard[y-1][x])
+			}
+		}		
+
+		return freeAdjacents;	
+	}	
 }
 
 $(document).on('ready', function() {
