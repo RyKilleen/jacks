@@ -8,6 +8,17 @@
 	position: relative;
 }
 
+.card.adjacent:hover {
+	background-color: #8AFF8A;
+}
+
+#turn-count {
+	position: fixed;
+	top: 10px;
+	right: 10px;
+	font-size: 24px;
+}
+
 .card {
 	display: inline-block;
 	width: 80px;
@@ -69,6 +80,7 @@
 	top: 0;
 	left: 0;
 	/*margin: 1.5% 1.5%;*/
+	opacity: 0.7;
 }
 
 .piece:after {
@@ -81,4 +93,8 @@
 
 .piece.home:after {
 	background-color: #000000;
+}
+
+.piece.selected {
+	opacity: 1;
 }

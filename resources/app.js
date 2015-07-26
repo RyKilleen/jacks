@@ -4,6 +4,7 @@ function Card (label, suit) {
 	self.label = label;
 	self.suit = suit;
 	self.value;
+	self.hasPiece = false;
 
 
 	// Assign the correct value based on letter values (caps expected, I know...)
@@ -73,12 +74,23 @@ function Piece (x, y, team) {
 
 	self.move = function(x, y) {
 
-		var newX = x * app.cardWidth;
-		var newY = y * app.cardWidth;
+		app.fullBoard[self.y][self.x].hasPiece = false;
 
-		var transformString = 'translate(' + newX + 'px, ' + newY + 'px)';		
+		var xPos = x * app.cardWidth;
+		var yPos = y * app.cardWidth;
+
+		var transformString = 'translate(' + xPos + 'px, ' + yPos + 'px)';		
 		self.$element.css('transform', transformString);
 
+		app.fullBoard[y][x].hasPiece = true;
+
+		self.x = x;
+		self.y = y;
+
+	}
+
+	self.setEventHandlers = function() {
+		
 	}
 
 	self.init = function() {
@@ -95,18 +107,16 @@ function Piece (x, y, team) {
 
 
 		self.move(self.x, self.y);
-	}
-
-	
+	}	
 
 	self.init();
-
-
-
 }
 
-app = {	
+app = {
 
+	status: {
+		pieceSelected : false
+	},
 	
 	defaultHalf : 	[
 		[new Card(7,    'heart'), new Card(4,   'heart'), new Card(2,   'heart'), new Card('A', 'heart'), new Card('K', 'spade'), new Card('K', 'diamond'), new Card('A',    'club'), new Card(2,    'club'), new Card(4,     'club'), new Card(7,     'club')],
@@ -147,6 +157,8 @@ app = {
 		app.cardWidth = 80;
 
 		app.drawPieces();
+
+		app.setEventHandlers();
 	},
 
 	drawBoard : function(board) {
@@ -183,7 +195,28 @@ app = {
 			app.homePieces.push(homePiece);
 		}
 
+		app.allPieces = app.awayPieces.concat(app.homePieces);
+
 	},
+
+	setEventHandlers : function() {
+
+
+		app.gameHolder.on('click.pieceManager', function(event) {
+
+			$(app.allPieces).each(function() {
+				this.$element.removeClass('selected');
+			})
+		
+			if (event.target.className.includes('piece')) {				
+				$(event.target).addClass('selected');
+				app.status.pieceSelected = true;
+				app.setAdjacentPieces();
+			} else {
+				app.status.pieceSelected = false;
+			}
+		})
+	}
 
 	
 }
