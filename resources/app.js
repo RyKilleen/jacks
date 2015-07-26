@@ -116,7 +116,8 @@ app = {
 
 	status: {
 		pieceSelected : false,
-		pointsLeft : 15
+		pointsLeft : 15,
+		pieceInPlay : null,
 	},
 	
 	defaultHalf : 	[
@@ -202,33 +203,42 @@ app = {
 
 	setEventHandlers : function() {
 
+		app.gameHolder.on('click.pieces', '.piece', function(event) {
+			var $thisPiece = $(event.target);
+			var $thisPieceObj = $thisPiece.data('obj');
 
-		app.gameHolder.on('click.pieceManager', function(event) {
+			if ($thisPieceObj === app.status.pieceInPlay) {
+				// Piece already selected
+			} else {
+				$(app.allPieces).each(function() {
+					this.$element.removeClass('selected');
+				});
 
-			$(app.allPieces).each(function() {
-				this.$element.removeClass('selected');
-			})
-
-
-		
-			if (event.target.className.includes('piece')) {
-
-				var $thisPiece = $(event.target);
-				var $thisPieceObj = $thisPiece.data('obj');
 				$thisPiece.addClass('selected');
 
-
 				app.status.pieceSelected = true;
+				app.status.pieceInPlay = $thisPieceObj;
+
 				var $adjacentPieces = $(app.checkAdjacents($thisPieceObj.x, $thisPieceObj.y));
 
 				$adjacentPieces.each(function() {
 					this.$element.addClass('adjacent');
 				});
-			} else {
-				app.status.pieceSelected = false;
-				app.clearAdjacent();
 			}
-		})
+		});
+
+		app.gameHolder.on('click.pieces', '.adjacent', function(event) {
+			console.log('adjacent');
+		});
+
+		app.gameHolder.on('click.hmm', function(event) {
+
+			if (!event.target.className.includes('piece') && !event.target.className.includes('adjacent') && $(event.target).parents('.adjacent').length === 0) {
+				app.status.pieceSelected = false;
+				app.status.pieceInPlay = null;
+				app.clearAdjacent();	
+			}			
+		});
 	},
 
 	clearAdjacent : function() {
