@@ -115,7 +115,8 @@ function Piece (x, y, team) {
 app = {
 
 	status: {
-		pieceSelected : false
+		pieceSelected : false,
+		pointsLeft : 15
 	},
 	
 	defaultHalf : 	[
@@ -207,6 +208,8 @@ app = {
 			$(app.allPieces).each(function() {
 				this.$element.removeClass('selected');
 			})
+
+
 		
 			if (event.target.className.includes('piece')) {
 
@@ -223,24 +226,31 @@ app = {
 				});
 			} else {
 				app.status.pieceSelected = false;
+				app.clearAdjacent();
 			}
 		})
+	},
+
+	clearAdjacent : function() {
+		$('.card.adjacent').removeClass('adjacent');
 	},
 
 	//Takes the x and y given and returns free adjacent cards
 	checkAdjacents : function(x, y) {
 		var freeAdjacents = [];
 
+		app.clearAdjacent();
+
 
 		// I'm sure there's a prettier way to check boundaries.
 
-		if (x < 10) {
+		if (x < 9) {
 			if (app.fullBoard[y][x+1] !== undefined && app.fullBoard[y][x+1].hasPiece === false) {
 				freeAdjacents.push(app.fullBoard[y][x+1])
 			}
 		}
 
-		if (y < 10) {
+		if (y < 9) {
 			if (app.fullBoard[y+1][x] !== undefined && app.fullBoard[y+1][x].hasPiece === false) {
 				freeAdjacents.push(app.fullBoard[y+1][x])
 			}
