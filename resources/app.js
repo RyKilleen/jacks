@@ -91,7 +91,6 @@ function Piece (x, y, team) {
 		}
 
 		self.$element.data({obj: self});
-		self.$element.height(app.cardWidth);
 		app.gameHolder.append(self.$element);
 
 
@@ -144,7 +143,8 @@ app = {
 		app.fullBoard = app.mirrorHalf.concat(app.defaultHalf);
 
 		app.drawBoard(app.fullBoard);
-		app.cardWidth = $('.card').height();
+		// app.cardWidth = $('.card').height();
+		app.cardWidth = 80;
 
 		app.drawPieces();
 	},

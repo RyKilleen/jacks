@@ -10,23 +10,27 @@
 
 .card {
 	display: inline-block;
-	width: 10%;	
+	width: 80px;
+	height: 80px;
 	position: relative;
 	vertical-align: top;
+	border-right: 1px solid #000;
+	border-bottom: 1px solid #000;
+	
+}
+
+
+
+.card:after {
+	content: '';
+	padding-top: 100%;
+	display: block;
 	
 }
 
 .card:first-child:after {
 	border-left: 1px solid #000;
 }
-
-.card:after {
-	content: '';
-	padding-top: 100%;
-	display: block;
-	border-right: 1px solid #000;
-}
-
 .card .card-content {
 	position: absolute;
 	top: 0;
@@ -37,11 +41,11 @@
 }
 
 .card-row {
-	border-bottom: 1px solid #000;
+	/*border-bottom: 1px solid #000;*/
 	
 }
 
-.card-row:first-child {
+.card-row:first-child .card:after {
 	border-top: 1px solid #000;
 }
 
@@ -59,7 +63,8 @@
 
 .piece {
 	position: absolute;	
-	width: 10%;
+	width: 80px;
+	height: 80px;
 	/*top: 1px;*/
 	top: 0;
 	left: 0;
